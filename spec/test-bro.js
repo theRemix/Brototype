@@ -3,12 +3,18 @@ var sinon  = require('sinon');
 var chai   = require('chai');
 var should = chai.should();
 
+// spy on this
+function hear ( noise ) {
+  
+  console.log(noise);
+}
+
 function Bro (name) {
   this.name = name;
   
   this.yell = function ( statement ) {
     statement = statement.toUpperCase()+"!!!!!!";
-    console.log(this.name,'yelling statement:',statement);
+    hear(this.name + ' yelling statement: ' + statement);
     return statement;
   }
 
@@ -25,15 +31,15 @@ describe("Brototype", function() {
 
   it("should have a reference to bro, and do things as bros", function () {
     
-    var spy = sinon.spy(second_bro, "yell");
+    var spy = sinon.spy(console, "log");
 
     bro.call( first_bro, second_bro );
 
     first_bro.yell("burnado bros");
 
-    spy.calledWith("burnado bros").should.be.true;
     spy.called.should.be.true;
-
+    spy.calledWith("Strong Bad yelling statement: BURNADO BROS!!!!!!").should.be.true;
+    spy.calledWith("The Cheat yelling statement: BURNADO BROS!!!!!!").should.be.true;
 
   });
 
