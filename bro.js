@@ -9,10 +9,10 @@ module.exports = function ( duuude ) {
   Object.getOwnPropertyNames(homie).forEach(function(property) {
     if( typeof homie[property] == 'function'){
       var original_function = homie[property];
-
+      
       homie[property] = function () {
         original_function.apply( homie, arguments );
-        original_function.apply( homie.prototype.bro, arguments );
+        homie.prototype.bro[property].apply( homie.prototype.bro, arguments );
       }
     }
   });
